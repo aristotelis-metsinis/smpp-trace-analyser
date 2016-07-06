@@ -1,0 +1,58 @@
+ametsinis misc $ ./smpp.sh -l test.lua -p ../workspace/dumps_airtel_ng/msp-smsc.28.new_smsc.throughut_195_sms_sec.pcap
+
+
+Warns (25)
+=============
+   Frequency      Group           Protocol  Summary
+          25   Sequence                TCP  Previous segment not captured (common at capture start)
+
+Notes (26)
+=============
+   Frequency      Group           Protocol  Summary
+          26   Sequence                TCP  This frame is a (suspected) retransmission
+
+=========================================================================================================================================================================
+SM_PP Operations:
+Topic / Item                                              Count         Average       Min val       Max val       Rate (ms)     Percent       Burst rate    Burst start
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SMPP Operations                                           122893                                                  0.3919        100%          5.8300        61.961
+ SMPP Requests                                            61596                                                   0.1964        50.12%        3.1000        61.961
+  Submit_sm                                               61496                                                   0.1961        99.84%        3.1000        61.961
+  Enquire_link                                            100                                                     0.0003        0.16%         0.0500        27.357
+ SMPP Responses                                           61297                                                   0.1955        49.88%        2.7700        61.272
+  Submit_sm - resp                                        61197                                                   0.1951        99.84%        2.7700        61.272
+  Enquire_link - resp                                     100                                                     0.0003        0.16%         0.0600        297.359
+SMPP Response Status                                      61297                                                   0.1955        100%          2.7700        61.272
+ Ok                                                       61289                                                   0.1954        99.99%        2.7700        61.272
+ Throttling error (ESME exceeded allowed message limits)  8                                                       0.0000        0.01%         0.0400        0.307
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+trace details
+=============
+ frames                : 50435
+ duration              : 313.622
+ tcp streams           : 10
+ transactions          : 61197
+ relative time of first
+ completed transaction : 0.003
+ relative time of last
+ completed transaction : 313.603
+
+statistics
+=============
+ latency mean    : 0.085
+ latency median  : 0.045
+ latency std dev : 0.166
+ latency max     : 1.047 [ tcp_stream # 7 seqnum # 824409860 | submit_sm-resp : frame # 12987 rel_time = 64.345 --> submit_sm : frame # 12171 rel_time = 63.298 ]
+ latency min     : 0.002 [ tcp_stream # 2 seqnum # 825562827 | submit_sm-resp : frame # 241 rel_time = 0.213 --> submit_sm : frame # 234 rel_time = 0.211 ]
+
+graphs
+=============
+
+ processing graph # 1 : histogram | latency [sec]
+ processing graph # 2 : latency [sec] vs time [sec]
+
+warn : 'wgnuplot.exe' should now be running as a background process; you should also close (any) graphs to exit completely normally.
+
+ametsinis misc $ 
