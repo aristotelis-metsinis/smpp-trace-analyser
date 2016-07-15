@@ -15,6 +15,11 @@ tcp_trace_file=''
 # specify (optionally) the "tcp port" being used by the "smpp" traffic.
 smpp_port=''
 
+# create an associative array.
+declare -A skip_error
+# put a value into an associative array.
+skip_error[$"The NPF driver isn't running.  You may have trouble capturing or listing interfaces."]=true
+
 # set script name variable.
 script=`basename ${BASH_SOURCE[0]}`
 
@@ -103,10 +108,13 @@ fi
 echo ""
 # sudo tcpdump -v -nn -s 0 -w tcp_trace_file.pcap -i ethernet_interface host xxx.xxx.xxx.xxx and port xxxx
 stderr=$( $tshark_executable $smpp_port -q -nr $tcp_trace_file -2 -z smpp_commands,tree -z expert -Xlua_script:$lua_smpp_script -Xlua_script1:$latency_data -Xlua_script1:$gnuplot_script -Xlua_script1:$gnuplot_executable 2>&1 >/dev/tty )
-
-if [ ! -z "$stderr" ]; then
+# remove all "\r\n" from "error" (if any) and replace them with a "white space" character.
+stderr=${stderr//$'\r\n'/ }
+# if "error" is not null and it is missing from the associative array,
+if [[ ! -z "$stderr" && ! ${skip_error[$stderr]+_} ]]; then
 	echo -e "\\n${BOLD}error${NORM} : $stderr\\n"
 	echo -e "${BOLD}warn : script will exit now ...${NORM}\\n"
+	# then exit; else skip error and resume operation.
 	exit 1
 fi
 
