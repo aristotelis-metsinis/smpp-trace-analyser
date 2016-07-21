@@ -110,6 +110,7 @@ echo ""
 stderr=$( $tshark_executable $smpp_port -q -nr $tcp_trace_file -2 -z smpp_commands,tree -z expert -Xlua_script:$lua_smpp_script -Xlua_script1:$latency_data -Xlua_script1:$gnuplot_script -Xlua_script1:$gnuplot_executable 2>&1 >/dev/tty )
 # remove all "\r\n" from "error" (if any) and replace them with a "white space" character.
 stderr=${stderr//$'\r\n'/ }
+stderr=${stderr//$'\r'/}
 # if "error" is not null and it is missing from the associative array,
 if [[ ! -z "$stderr" && ! ${skip_error[$stderr]+_} ]]; then
 	echo -e "\\n${BOLD}error${NORM} : $stderr\\n"
